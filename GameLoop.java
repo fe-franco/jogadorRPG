@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class GameLoop {
@@ -28,44 +29,43 @@ public abstract class GameLoop {
     }
 
     protected void processInput() {
-        try {
-            Scanner input = new Scanner(System.in);
-            System.out.println("Qual jogador você quer atacar?");
-            System.out.println("1:" + controller.j2.nome);
-            System.out.println("hp:" + controller.j2.getHp());
-            System.out.println("xp:" + controller.j2.getHp());
-            System.out.println("envenenado:" + controller.j2.isEnvenenado());
-            System.out.println("2:" + controller.j3.nome);
-            System.out.println("hp:" + controller.j3.getHp());
-            System.out.println("xp:" + controller.j3.getHp());
-            System.out.println("envenenado:" + controller.j3.isEnvenenado());
+        Scanner input = new Scanner(System.in);
+        while (true) {
+            try {
+                Jogador player1 = controller.getJ2();
+                Jogador player2 = controller.getJ3();
+               
 
-            int id = input.nextInt();
-            input.close();
-            switch (id) {
-                case 1:
-                    controller.atacar(controller.j2);
+                System.out.print("Qual jogador você quer atacar?");
+                int id = input.nextInt();
+         
+                if (id == 1) {
+                    controller.atacar(player1);
                     break;
-                case 2:
-                    controller.atacar(controller.j3);
+                } else if (id == 2) {
+                    controller.atacar(player2);
                     break;
-
-                default:
-                    controller.atacar(controller.j2);
-                    break;
+                } else {
+                    System.out.println("Opção inválida. Digite 1 ou 2.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número.");
+                input.next(); // consume invalid input
             }
-
-        } finally {
-            
         }
     }
-
     protected void render() {
-        System.out.println("Bem vindo ao RPG");
+        Jogador player1 = controller.getJ2();
+        Jogador player2 = controller.getJ3();
+        System.out.println("Jogadores:");
+        System.out.println("1: "+player1.nome+" - hp: " + player1.getHp()+ " - xp: " +player1.getXp() + (player1.isEnvenenado()? " - envenenado" : ""));
+        System.out.println("2: "+player2.nome+" - hp: " + player2.getHp()+ " - xp: " +player2.getXp() + (player1.isEnvenenado()? " - envenenado" : ""));
+       
         System.out.println("Seu personagem é o " + controller.selected.nome);
         System.out.println("Vida: " + controller.selected.getHp());
         System.out.println("XP:" + controller.selected.getXp());
         System.out.println("Envenenado: " + controller.selected.isEnvenenado());
+        
 
     }
 
