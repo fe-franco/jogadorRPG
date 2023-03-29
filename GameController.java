@@ -30,9 +30,15 @@ public class GameController {
     //    break;
     //}
   }
+  public Jogador getJ2() {
+    return j2;
+  }
+  public Jogador getJ3() {
+    return j3;
+  }
 
   public void atacar(Jogador jogadorAtacado) {
-    System.out.println("Você está atacando o jogador:" + jogadorAtacado.nome);
+    System.out.println("Você atacou o " + jogadorAtacado.nome + " ]com " + selected.getXp() + " de dano");
     jogadorAtacado.receberDano(selected.getXp());
     if (jogadorAtacado.getHp() <= 0) {
       System.out.println("Ele desviveu!");
